@@ -1,0 +1,94 @@
+using UnityEngine;
+
+public class BallMove : MonoBehaviour
+{
+    // ボールが「右 → 左」に進むのに何秒かけるか（1秒＝だいたい1拍）
+    [SerializeField]
+    private float moveTime = 1.0f;
+
+    // スタート位置（右側）
+    [SerializeField]
+    private RectTransform startPos;
+
+    // ゴール位置（左側）
+    [SerializeField]
+    private RectTransform endPos;
+
+    // 判定位置
+    [SerializeField]
+    private RectTransform target_pos;
+
+    private float a, b, c;
+
+    private float move_x_distance;
+
+    private RectTransform rect;
+
+    // 0〜moveTimeの間で時間を数えるためのタイマー
+    private float timer = 0;
+
+    void Start()
+    {
+        // 自分（ボール）のRectTransformを取ってくる
+        rect = GetComponent<RectTransform>();
+
+        // ボールをスタート位置に置く
+        ResetBall();
+
+        float x1, y1, x2, y2, x3, y3;
+        x1 = startPos.anchoredPosition.x;
+        y1 = startPos.anchoredPosition.y;
+        x2 = endPos.anchoredPosition.x;
+        y2 = endPos.anchoredPosition.y;
+        x3 = target_pos.anchoredPosition.x;
+        y3 = target_pos.anchoredPosition.y;
+
+        float det = ((x1 * x1) * (x2 - x3)) + ((x2 * x2) * (x3 - x1)) + (x3 * x3) * (x1 - x2);
+        a = ((y1 * (x2 - x3)) + (y2 * (x3 - x1)) + (y3 * (x1 - x2))) / det;
+        b = ((y1 * (x3 * x3 - x2 * x2)) + (y2 * (x1 * x1 - x3 * x3)) + (y3 * (x2 * x2 - x1 * x1))) / det;
+        c = ((y1 * (x2 * x2 * x3 - x2 * x3 * x3)) + (y2 * (x3 * x3 * x1 - x3 * x1 * x1)) + (y3 * (x1 * x1 * x2 - x1 * x2 * x2))) / det;
+
+        move_x_distance = x2 - x1;
+
+        timer = 0;
+    }
+
+    void Update()
+    {
+        // 毎フレームごとにタイマーを進める
+        timer += Time.deltaTime;
+
+        // timer を 0〜1 の範囲に変換（0＝スタート、1＝ゴール）
+        float t = timer / moveTime;
+
+        // 1を超えたらゴールしたので、またスタートに戻す
+        if (t > 1f)
+        {
+            ResetBall();
+            return;
+        }
+
+        // ▼━━ X方向（横）の動き ━━▼
+        // startPos → endPos へまっすぐ移動する
+        //float x = Mathf.Lerp(startPos.anchoredPosition.x,
+        //                     endPos.anchoredPosition.x,
+        //                     t);
+
+        float x = startPos.anchoredPosition.x + (move_x_distance * (timer / moveTime));
+
+
+
+        // ▼━━ Y方向（縦）の動き ━━▼
+        float y = a * x * x + b * x + c;
+
+        // 実際にボールを動かす
+        rect.anchoredPosition = new Vector2(x, y);
+    }
+
+    // ボールをスタート位置に戻す関数
+    public void ResetBall()
+    {
+        timer = 0; // 時間を0に戻す
+        rect.anchoredPosition = startPos.anchoredPosition; // スタートにワープ
+    }
+}
