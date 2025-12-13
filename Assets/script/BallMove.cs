@@ -3,16 +3,23 @@ using UnityEngine;
 public class BallMove : MonoBehaviour
 {
     // ボールが「右 → 左」に進むのに何秒かけるか（1秒＝だいたい1拍）
-    public float moveTime = 1.0f;
+    [SerializeField, Tooltip("ボールが右から左に進のにかかる時間[s]")]
+    private float moveTime = 1.0f;
 
     // 放物線の高さ。数値が大きいほど「ぴょん」と高く飛ぶ
-    public float peakHeight = 120f;
+    [SerializeField, Tooltip("放物線の高さ")]
+    private float peakHeight = 120f;
 
     // スタート位置（右側）
-    public RectTransform startPos;
+    [SerializeField, Tooltip("スタート位置のオブジェクト")]
+    private RectTransform startPos;
 
     // ゴール位置（左側）
-    public RectTransform endPos;
+    [SerializeField, Tooltip("ゴール位置のオブジェクト")]
+    private RectTransform endPos;
+
+    [SerializeField, Tooltip("判定位置のオブジェクト")]
+    private RectTransform judgement_point_pos;
 
     RectTransform rect;
 
@@ -69,7 +76,7 @@ public class BallMove : MonoBehaviour
     }
 
     // ボールをスタート位置に戻す関数
-    public void ResetBall()
+    private void ResetBall()
     {
         timer = 0; // 時間を0に戻す
         rect.anchoredPosition = startPos.anchoredPosition; // スタートにワープ

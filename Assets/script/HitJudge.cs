@@ -4,10 +4,12 @@ using TMPro;
 public class HitJudge : MonoBehaviour
 {
     // 流れてくるボール（UI Image）
-    public RectTransform ball;
+    [SerializeField, Tooltip("ボールオブジェクト")]
+    private RectTransform ball;
 
     // 判定位置の赤丸（UI Image）
-    public RectTransform target;
+    [SerializeField, Tooltip("判定位置のオブジェクト")]
+    private RectTransform target;
 
     // 判定できる距離（数値が大きいほど判定がゆるくなる）
     public float judgeRange = 60f;
