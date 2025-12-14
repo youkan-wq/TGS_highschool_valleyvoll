@@ -23,15 +23,18 @@ public class GameManager : MonoBehaviour
 
     private float time;
 
-    void Start()
+    void Awake()
     {
-        if (timelimit <= 0) timelimit = default_timeimit;
-        time = 0;
-
         // DataManagerに基準オブジェクトの位置データをセット
         DataManager.SetStartPointPos(start_point.anchoredPosition);
         DataManager.SetEndPointPos(end_point.anchoredPosition);
         DataManager.SetTargetPointPos(target_point.anchoredPosition);
+    }
+
+    void Start()
+    {
+        if (timelimit <= 0) timelimit = default_timeimit;
+        time = 0;
     }
 
     void Update()

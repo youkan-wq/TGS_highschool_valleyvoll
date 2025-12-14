@@ -6,17 +6,9 @@ public class BallMove : MonoBehaviour
     [SerializeField]
     private float moveTime = 1.0f;
 
-    // スタート位置（右側）
-    [SerializeField]
-    private RectTransform startPos;
-
-    // ゴール位置（左側）
-    [SerializeField]
-    private RectTransform endPos;
-
-    // 判定位置
-    [SerializeField]
-    private RectTransform target_pos;
+    private Vector2 start_point_pos;
+    private Vector2 start_end_pos;
+    private Vector2 start_target_pos;
 
     private float a, b, c;
 
@@ -32,16 +24,20 @@ public class BallMove : MonoBehaviour
         // 自分（ボール）のRectTransformを取ってくる
         rect = GetComponent<RectTransform>();
 
+        start_point_pos = DataManager.GetStartPointPos();
+        start_end_pos = DataManager.GetEndPointPos();
+        start_target_pos = DataManager.GetTargetPointPos();
+
         // ボールをスタート位置に置く
         ResetBall();
 
         float x1, y1, x2, y2, x3, y3;
-        x1 = startPos.anchoredPosition.x;
-        y1 = startPos.anchoredPosition.y;
-        x2 = endPos.anchoredPosition.x;
-        y2 = endPos.anchoredPosition.y;
-        x3 = target_pos.anchoredPosition.x;
-        y3 = target_pos.anchoredPosition.y;
+        x1 = start_point_pos.x;
+        y1 = start_point_pos.y;
+        x2 = start_end_pos.x;
+        y2 = start_end_pos.y;
+        x3 = start_target_pos.x;
+        y3 = start_target_pos.y;
 
         float det = ((x1 * x1) * (x2 - x3)) + ((x2 * x2) * (x3 - x1)) + (x3 * x3) * (x1 - x2);
         a = ((y1 * (x2 - x3)) + (y2 * (x3 - x1)) + (y3 * (x1 - x2))) / det;
@@ -69,12 +65,7 @@ public class BallMove : MonoBehaviour
         }
 
         // ▼━━ X方向（横）の動き ━━▼
-        // startPos → endPos へまっすぐ移動する
-        //float x = Mathf.Lerp(startPos.anchoredPosition.x,
-        //                     endPos.anchoredPosition.x,
-        //                     t);
-
-        float x = startPos.anchoredPosition.x + (move_x_distance * (timer / moveTime));
+        float x = start_point_pos.x + (move_x_distance * (timer / moveTime));
 
 
 
@@ -89,6 +80,6 @@ public class BallMove : MonoBehaviour
     public void ResetBall()
     {
         timer = 0; // 時間を0に戻す
-        rect.anchoredPosition = startPos.anchoredPosition; // スタートにワープ
+        rect.anchoredPosition = start_point_pos; // スタートにワープ
     }
 }

@@ -10,18 +10,19 @@ public class HitJudge : MonoBehaviour
     public RectTransform target;
 
     // 判定できる距離（数値が大きいほど判定がゆるくなる）
-    public float judgeRange = 60f;
+    public float judgeRange = 40f;
 
     // スコアを表示するテキスト
     public TextMeshProUGUI scoreText;
 
     // GREAT / GOOD / MISS を表示するテキスト
-    public TextMeshProUGUI resultText;
+    [SerializeField, Tooltip("GREAT / GOOD / MISS を表示するテキスト")]
+    private TextMeshProUGUI resultText;
 
     private float sensor_value;
     private float sensor_value_before;
 
-    [SerializeField]
+    [SerializeField, Tooltip("センサの値がいくつ以上になったら、叩いた判定にするか")]
     private int th = 100;
 
     [SerializeField]
@@ -80,7 +81,7 @@ public class HitJudge : MonoBehaviour
         // GREAT：ほぼぴったりの位置
         if (distance < judgeRange * 0.3f)
         {
-            Debug.Log("GREAT");
+            //Debug.Log("GREAT");
             AddScore(3, "GREAT!");
 
             SoundEffect(2);
@@ -88,7 +89,7 @@ public class HitJudge : MonoBehaviour
         // GOOD：まあまあ近い
         else if (distance < judgeRange)
         {
-            Debug.Log("GOOD");
+            //Debug.Log("GOOD");
             AddScore(1, "GOOD");
 
             SoundEffect(1);
@@ -96,7 +97,7 @@ public class HitJudge : MonoBehaviour
         // MISS：遠い位置
         else
         {
-            Debug.Log("MISS");
+            //Debug.Log("MISS");
             AddScore(0, "MISS");
 
             SoundEffect(0);
