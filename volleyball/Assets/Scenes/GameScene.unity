@@ -753,6 +753,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameManager
   timelimit: 60
+  start_point: {fileID: 1136623569}
+  end_point: {fileID: 1839587074}
+  target_point: {fileID: 1768302797}
 --- !u!4 &821367557
 Transform:
   m_ObjectHideFlags: 0

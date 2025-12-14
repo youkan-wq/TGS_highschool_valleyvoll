@@ -30,6 +30,16 @@ public static class DataManager
         start_point_pos = pos;
     }
 
+    public static void SetEndPointPos(Vector2 pos)
+    {
+        end_point_pos = pos;
+    }
+
+    public static void SetTargetPointPos(Vector2 pos)
+    {
+        target_point_pos = pos;
+    }
+
 
 
     public static int GetScore()
