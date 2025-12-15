@@ -20,5 +20,11 @@ public class StartManager : MonoBehaviour
         {
             SceneManager.LoadScene("GameScene");
         }
+
+        // "シフトキー＋１"キーでサンプルゲームシーン１へ移動
+        if ((Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift)) && Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            SceneManager.LoadScene("SampleGameScene_1");
+        }
     }
 }
