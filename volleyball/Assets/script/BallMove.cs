@@ -3,7 +3,7 @@ using UnityEngine;
 public class BallMove : MonoBehaviour
 {
     // ボールが「右 → 左」に進むのに何秒かけるか（1秒＝だいたい1拍）
-    [SerializeField]
+    [SerializeField, Tooltip("ボールがスタートからゴールまで何秒で移動するか[s]")]
     private float moveTime = 1.0f;
 
     private Vector2 start_point_pos;
@@ -28,9 +28,6 @@ public class BallMove : MonoBehaviour
         start_end_pos = DataManager.GetEndPointPos();
         start_target_pos = DataManager.GetTargetPointPos();
 
-        // ボールをスタート位置に置く
-        ResetBall();
-
         float x1, y1, x2, y2, x3, y3;
         x1 = start_point_pos.x;
         y1 = start_point_pos.y;
@@ -54,32 +51,20 @@ public class BallMove : MonoBehaviour
         // 毎フレームごとにタイマーを進める
         timer += Time.deltaTime;
 
-        // timer を 0〜1 の範囲に変換（0＝スタート、1＝ゴール）
-        float t = timer / moveTime;
-
-        // 1を超えたらゴールしたので、またスタートに戻す
-        if (t > 1f)
+        // ゴール地点を通りすぎて少ししたら、このオブジェクトを削除
+        if (timer > (moveTime + 1))
         {
-            ResetBall();
-            return;
+            Destroy(gameObject);
+            DataManager.DeleteBallList(gameObject.name);
         }
 
-        // ▼━━ X方向（横）の動き ━━▼
+        // X方向（横）の動き
         float x = start_point_pos.x + (move_x_distance * (timer / moveTime));
 
-
-
-        // ▼━━ Y方向（縦）の動き ━━▼
+        // Y方向（縦）の動き
         float y = a * x * x + b * x + c;
 
         // 実際にボールを動かす
         rect.anchoredPosition = new Vector2(x, y);
-    }
-
-    // ボールをスタート位置に戻す関数
-    public void ResetBall()
-    {
-        timer = 0; // 時間を0に戻す
-        rect.anchoredPosition = start_point_pos; // スタートにワープ
     }
 }

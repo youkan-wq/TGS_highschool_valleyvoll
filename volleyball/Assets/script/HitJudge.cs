@@ -40,8 +40,12 @@ public class HitJudge : MonoBehaviour
     // 現在のスコア
     int score = 0;
 
+    private Vector2 target_point_pos;
+
     void Start()
     {
+        target_point_pos = DataManager.GetTargetPointPos();
+
         // 最初は判定結果を表示しない
         resultText.gameObject.SetActive(false);
 
@@ -64,7 +68,7 @@ public class HitJudge : MonoBehaviour
 
         sensor_value = SensorReader.GetPressure();
 
-        if (sensor_value_before == 0 && sensor_value >= th)
+        if (sensor_value_before < th && sensor_value >= th)
         {
             Judge();
         }
