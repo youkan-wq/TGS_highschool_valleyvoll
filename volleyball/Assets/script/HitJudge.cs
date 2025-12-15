@@ -1,16 +1,11 @@
 using UnityEngine;
 using TMPro;
+using System.Collections.Generic;
 
 public class HitJudge : MonoBehaviour
 {
-    // 流れてくるボール（UI Image）
-    public RectTransform ball;
-
-    // 判定位置の赤丸（UI Image）
-    public RectTransform target;
-
-    // 判定できる距離（数値が大きいほど判定がゆるくなる）
-    public float judgeRange = 40f;
+    private float judge_great_range = 12f;
+    private float judge_good_range = 40f;
 
     // スコアを表示するテキスト
     public TextMeshProUGUI scoreText;
@@ -18,6 +13,13 @@ public class HitJudge : MonoBehaviour
     // GREAT / GOOD / MISS を表示するテキスト
     [SerializeField, Tooltip("GREAT / GOOD / MISS を表示するテキスト")]
     private TextMeshProUGUI resultText;
+
+    private int great_score = 3;
+    private int good_score = 1;
+    private int miss_score = 0;
+    private int great_magnification = 1;
+    private int good_magnification = 1;
+    private int miss_magnification = 1;
 
     private float sensor_value;
     private float sensor_value_before;
@@ -79,32 +81,45 @@ public class HitJudge : MonoBehaviour
     // 叩いた時の判定処理
     void Judge()
     {
-        // ボールとターゲット（赤丸）の横方向の距離を計算
-        float distance = Mathf.Abs(ball.anchoredPosition.x - target.anchoredPosition.x);
+        List<string[]> ball_list = DataManager.ReturnBallListInfo();
 
-        // GREAT：ほぼぴったりの位置
-        if (distance < judgeRange * 0.3f)
+        int judge_ball_num = -1;
+        float min_distance = float.MaxValue;
+
+        for (int i = 0; i < ball_list.Count; i++)
         {
-            //Debug.Log("GREAT");
-            AddScore(3, "GREAT!");
+            float ball_distance = float.Parse(ball_list[i][1]);
 
-            SoundEffect(2);
+            if (ball_distance < min_distance)
+            {
+                min_distance = ball_distance;
+                judge_ball_num = i;
+            }
         }
-        // GOOD：まあまあ近い
-        else if (distance < judgeRange)
-        {
-            //Debug.Log("GOOD");
-            AddScore(1, "GOOD");
 
-            SoundEffect(1);
-        }
-        // MISS：遠い位置
-        else
+        if (judge_ball_num != -1)
         {
-            //Debug.Log("MISS");
-            AddScore(0, "MISS");
+            if (min_distance < judge_great_range)
+            {
+                // GREAT
+                AddScore(great_score * great_magnification, "GREAT!");
 
-            SoundEffect(0);
+                SoundEffect(2);
+            }
+            else if (min_distance < judge_good_range)
+            {
+                // GOOD
+                AddScore(good_score * good_magnification, "GOOD");
+
+                SoundEffect(1);
+            }
+            else
+            {
+                // MISS
+                AddScore(miss_score * miss_magnification, "MISS");
+
+                SoundEffect(0);
+            }
         }
     }
 

@@ -13,6 +13,12 @@ public static class DataManager
     private static List<string> ball_list = new List<string>();
 
 
+    // 初期化
+    public static void Initialize()
+    {
+        score = 0;
+        ball_list.Clear();
+    }
 
     public static Vector2 GetStartPointPos()
     {
@@ -135,11 +141,26 @@ public static class DataManager
 
     public static List<string[]> ReturnBallListInfo()
     {
-        return null;
-    }
+        List<string[]> ball_info_list = new List<string[]>();
 
-    public static List<string> ReturnBallLIst()
-    {
-        return ball_list;
+        for (int i = 0; i < ball_list.Count; i++)
+        {
+            string[] ball_info = new string[2];
+            ball_info[0] = ball_list[i];
+
+            RectTransform ball = GameObject.Find(ball_list[i])?.GetComponent<RectTransform>();
+            Vector2 ball_pos = ball.anchoredPosition;
+
+            // ボールとターゲットの距離を計算
+            float distance = Vector2.Distance(ball_pos, target_point_pos);
+
+            // ボールとターゲットの距離を文字列に変換して格納
+            ball_info[1] = distance.ToString();
+
+            // リストに追加
+            ball_info_list.Add(ball_info);
+        }
+        
+        return ball_info_list;
     }
 }

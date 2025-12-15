@@ -45,6 +45,9 @@ public class GameManager : MonoBehaviour
         DataManager.SetStartPointPos(start_point.anchoredPosition);
         DataManager.SetEndPointPos(end_point.anchoredPosition);
         DataManager.SetTargetPointPos(target_point.anchoredPosition);
+
+        // DataManagerの初期化
+        DataManager.Initialize();
     }
 
     void Start()
