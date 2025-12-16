@@ -666,7 +666,7 @@ MonoBehaviour:
   target_point: {fileID: 1768302797}
   ballPrefab: {fileID: 1009763906627830649, guid: cf03a1fc3a2fa49c8bcee8d2d3d11608, type: 3}
   canvas: {fileID: 1325878714}
-  ball_spawn_interval: 0
+  ball_spawn_interval: 2
 --- !u!4 &821367557
 Transform:
   m_ObjectHideFlags: 0

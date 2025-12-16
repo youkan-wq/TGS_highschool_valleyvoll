@@ -7,9 +7,12 @@ public class StartManager : MonoBehaviour
 
     private float start_attack_th = 25;
 
+    private int start_game_mode = 0;
+
     void Start()
     {
         sensor_value = 0;
+        start_game_mode = 0;
     }
 
     void Update()
@@ -18,13 +21,26 @@ public class StartManager : MonoBehaviour
 
         if ((sensor_value > start_attack_th) || Input.GetKeyDown(KeyCode.Space))
         {
-            SceneManager.LoadScene("GameScene");
+            switch (start_game_mode)
+            {
+                case 0:
+                    SceneManager.LoadScene("GameScene");
+                    break;
+
+                case 1:
+                    SceneManager.LoadScene("SampleGameScene_1");
+                    break;
+
+                default:
+                    SceneManager.LoadScene("GameScene");
+                    break;
+            }
         }
 
         // "シフトキー＋１"キーでサンプルゲームシーン１へ移動
         if ((Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift)) && Input.GetKeyDown(KeyCode.Alpha1))
         {
-            SceneManager.LoadScene("SampleGameScene_1");
+            start_game_mode = 1;
         }
     }
 }
