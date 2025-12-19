@@ -31,6 +31,10 @@ public class StartManager : MonoBehaviour
                     SceneManager.LoadScene("SampleGameScene_1");
                     break;
 
+                case 2:
+                    SceneManager.LoadScene("SampleGameScene_2");
+                    break;
+
                 default:
                     SceneManager.LoadScene("GameScene");
                     break;
@@ -41,6 +45,12 @@ public class StartManager : MonoBehaviour
         if ((Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift)) && Input.GetKeyDown(KeyCode.Alpha1))
         {
             start_game_mode = 1;
+        }
+
+        // "シフトキー＋２"キーでサンプルゲームシーン２へ移動
+        if ((Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift)) && Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            start_game_mode = 2;
         }
     }
 }
