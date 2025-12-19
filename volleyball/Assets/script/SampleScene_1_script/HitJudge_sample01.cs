@@ -2,7 +2,7 @@ using UnityEngine;
 using TMPro;
 using System.Collections.Generic;
 
-public class HitJudge : MonoBehaviour
+public class HitJudge_sample01 : MonoBehaviour
 {
     private float judge_great_range = 12f;
     private float judge_good_range = 40f;
@@ -52,7 +52,7 @@ public class HitJudge : MonoBehaviour
         resultText.gameObject.SetActive(false);
 
         // 初期スコアを画面に表示
-        UpdateScore();
+        UpdateScore_sample01();
 
         sensor_value_before = 0;
         score = 0;
@@ -64,7 +64,7 @@ public class HitJudge : MonoBehaviour
         // スペースキーを押した瞬間に判定を行う
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            Judge();
+            Judge_sample01();
         }
 
 
@@ -72,89 +72,93 @@ public class HitJudge : MonoBehaviour
 
         if (sensor_value_before < th && sensor_value >= th)
         {
-            Judge();
+            Judge_sample01();
         }
 
         sensor_value_before = sensor_value;
     }
 
     // 叩いた時の判定処理
-    private void Judge()
+    private void Judge_sample01()
     {
-        List<string[]> ball_list = DataManager.ReturnBallListInfo();
+        // シーン上に存在する BallMove_sample01 を全部探す
+        BallMove_sample01[] balls = FindObjectsOfType<BallMove_sample01>();
 
-        int judge_ball_num = -1;
-        float min_distance = float.MaxValue;
+        BallMove_sample01 nearest = null;
+        float minDistance = float.MaxValue;
 
-        for (int i = 0; i < ball_list.Count; i++)
+        for (int i = 0; i < balls.Length; i++)
         {
-            float ball_distance = float.Parse(ball_list[i][1]);
+            RectTransform rt = balls[i].GetComponent<RectTransform>();
+            if (rt == null) continue;
 
-            if (ball_distance < min_distance)
+            float d = Vector2.Distance(rt.anchoredPosition, target_point_pos);
+
+            if (d < minDistance)
             {
-                min_distance = ball_distance;
-                judge_ball_num = i;
+                minDistance = d;
+                nearest = balls[i];
             }
         }
 
-        if (judge_ball_num != -1)
+        if (nearest == null) return;
+
+        if (minDistance < judge_great_range)
         {
-            if (min_distance < judge_great_range)
-            {
-                // GREAT
-                AddScore(great_score * great_magnification, "GREAT!");
+            AddScore_sample01(great_score * great_magnification, "GREAT!");
+            SoundEffect_sample01(2);
 
-                SoundEffect(2);
-            }
-            else if (min_distance < judge_good_range)
-            {
-                // GOOD
-                AddScore(good_score * good_magnification, "GOOD");
+            // ★インスタンスから呼ぶ
+            nearest.SetBallState();
+        }
+        else if (minDistance < judge_good_range)
+        {
+            AddScore_sample01(good_score * good_magnification, "GOOD");
+            SoundEffect_sample01(1);
 
-                SoundEffect(1);
-            }
-            else
-            {
-                // MISS
-                AddScore(miss_score * miss_magnification, "MISS");
-
-                SoundEffect(0);
-            }
+            // ★インスタンスから呼ぶ
+            nearest.SetBallState();
+        }
+        else
+        {
+            AddScore_sample01(miss_score * miss_magnification, "MISS");
+            SoundEffect_sample01(0);
         }
     }
 
+
     // スコアを加算し、画面に結果を表示する処理
-    private void AddScore(int add, string msg)
+    private void AddScore_sample01(int add, string msg)
     {
         // スコアを加算
         score += add;
 
         // スコア表示を更新
-        UpdateScore();
+        UpdateScore_sample01();
 
         // 判定結果の文字を表示
         resultText.text = msg;
         resultText.gameObject.SetActive(true);
 
         // 0.4秒後に結果を非表示にする
-        Invoke(nameof(HideResult), 0.4f);
+        Invoke(nameof(HideResult_sample01), 0.4f);
 
         DataManager.SetScore(score);
     }
 
     // 判定の文字を非表示にする
-    private void HideResult()
+    private void HideResult_sample01()
     {
         resultText.gameObject.SetActive(false);
     }
 
     // スコアテキストを書き換える
-    private void UpdateScore()
+    private void UpdateScore_sample01()
     {
         scoreText.text = "SCORE: " + score;
     }
 
-    private void SoundEffect(int type)
+    private void SoundEffect_sample01(int type)
     {
         switch (type)
         {
