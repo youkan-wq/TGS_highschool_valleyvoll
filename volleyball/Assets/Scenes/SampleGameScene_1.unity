@@ -664,7 +664,7 @@ MonoBehaviour:
   start_point: {fileID: 1136623569}
   end_point: {fileID: 1839587074}
   target_point: {fileID: 1768302797}
-  ballPrefab: {fileID: 1009763906627830649, guid: cf03a1fc3a2fa49c8bcee8d2d3d11608, type: 3}
+  ballPrefab: {fileID: 1009763906627830649, guid: ccc12b04d30c94d7bafdeef70f912a9e, type: 3}
   canvas: {fileID: 1325878714}
   ball_spawn_interval: 2
 --- !u!4 &821367557
@@ -1171,6 +1171,7 @@ GameObject:
   - component: {fileID: 1768302800}
   - component: {fileID: 1768302799}
   - component: {fileID: 1768302798}
+  - component: {fileID: 1768302802}
   - component: {fileID: 1768302801}
   m_Layer: 5
   m_Name: target
@@ -1205,7 +1206,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1768302796}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ce8ed8fb04472460e8718378c5964c55, type: 3}
   m_Name: 
@@ -1352,6 +1353,25 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &1768302802
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1768302796}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9199bad2d71924105831c764e8a25ca7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HitJudge_sample01
+  scoreText: {fileID: 642876505}
+  resultText: {fileID: 1903946222}
+  th: 30
+  seSource: {fileID: 1768302801}
+  seClip_great: {fileID: 8300000, guid: 915278dd195ee4de4a84dafa9e0ae42d, type: 3}
+  seClip_good: {fileID: 8300000, guid: 298084f83256747d0bdce529545ff75f, type: 3}
+  seClip_miss: {fileID: 8300000, guid: 218bb698c81154ddca5bb04f2c5f9d4e, type: 3}
 --- !u!1 &1839587073
 GameObject:
   m_ObjectHideFlags: 0

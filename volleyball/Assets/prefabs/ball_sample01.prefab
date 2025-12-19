@@ -89,7 +89,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BallMove_sample01
   moveTime: 4
-  hitFlyTime: 0.5
+  hitFlyTime: 1
   hitMoveX: 200
   hitMoveY: 120
   hitScaleTo: 0.15
