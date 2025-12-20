@@ -16,10 +16,10 @@ public class HitJudge : MonoBehaviour
 
     private int great_score = 3;
     private int good_score = 1;
-    private int miss_score = 0;
+    private int miss_score = -1;
     private int great_magnification = 1;
     private int good_magnification = 1;
-    private int miss_magnification = 1;
+    private int miss_magnification = 0;
 
     private float sensor_value;
     private float sensor_value_before;

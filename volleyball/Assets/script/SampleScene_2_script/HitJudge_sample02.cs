@@ -16,10 +16,10 @@ public class HitJudge_sample02 : MonoBehaviour
 
     private int great_score = 3;
     private int good_score = 1;
-    private int miss_score = 0;
+    private int miss_score = -1;
     private int great_magnification = 1;
     private int good_magnification = 1;
-    private int miss_magnification = 1;
+    private int miss_magnification = 0;
 
     private float sensor_value;
     private float sensor_value_before;
@@ -44,6 +44,11 @@ public class HitJudge_sample02 : MonoBehaviour
 
     private Vector2 target_point_pos;
 
+
+    // --フィーバータイム・コンボ実装--
+    private int great_count;
+    private int good_count;
+
     private void Start()
     {
         target_point_pos = DataManager.GetTargetPointPos();
@@ -56,6 +61,8 @@ public class HitJudge_sample02 : MonoBehaviour
 
         sensor_value_before = 0;
         score = 0;
+        great_count = 0;
+        good_count = 0;
     }
 
     private void Update()
@@ -102,6 +109,8 @@ public class HitJudge_sample02 : MonoBehaviour
             if (min_distance < judge_great_range)
             {
                 // GREAT
+                great_count++;
+
                 AddScore(great_score * great_magnification, "GREAT!");
 
                 SoundEffect(2);
@@ -109,9 +118,13 @@ public class HitJudge_sample02 : MonoBehaviour
             else if (min_distance < judge_good_range)
             {
                 // GOOD
+                good_count++;
+
                 AddScore(good_score * good_magnification, "GOOD");
 
                 SoundEffect(1);
+
+                great_count = 0;
             }
             else
             {
@@ -119,6 +132,24 @@ public class HitJudge_sample02 : MonoBehaviour
                 AddScore(miss_score * miss_magnification, "MISS");
 
                 SoundEffect(0);
+
+                great_count = 0;
+                good_count = 0;
+            }
+
+            if (great_count >= 10)
+            {
+                great_magnification = 2;
+                good_magnification = 2;
+            } else if (great_count >= 20)
+            {
+                great_magnification = 3;
+                good_magnification = 3;
+            }
+            else
+            {
+                great_magnification = 1;
+                good_magnification = 1;
             }
         }
     }
